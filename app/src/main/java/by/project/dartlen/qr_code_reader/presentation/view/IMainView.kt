@@ -8,4 +8,5 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface IMainView : MvpView{
     fun showQr(bmp: Bitmap)
+    fun showToast(message : String)
 }

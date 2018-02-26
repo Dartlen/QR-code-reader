@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -44,6 +45,9 @@ class MainFragment : BaseFragment(), IMainView {
     @BindView(R.id.button)
     protected lateinit var button: Button
 
+    @BindView(R.id.button2)
+    protected lateinit var button2: Button
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_main, container, false)
                     .also{
@@ -60,7 +64,17 @@ class MainFragment : BaseFragment(), IMainView {
         presenter.onToQr(input.text.toString())
     }
 
+    @OnClick(R.id.button2)
+    protected fun onButtonSave(){
+        presenter.onSave()
+    }
+
     override fun showQr(bmp: Bitmap) {
         image.setImageBitmap(bmp)
+        button2.visibility = View.VISIBLE
+    }
+
+    override fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 }
