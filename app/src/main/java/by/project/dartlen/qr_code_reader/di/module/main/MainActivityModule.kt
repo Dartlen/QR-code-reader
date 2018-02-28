@@ -4,6 +4,7 @@ import android.app.Activity
 import by.project.dartlen.qr_code_reader.ui.activity.MainActivity
 import by.project.dartlen.qr_code_reader.di.scope.ActivityScope
 import by.project.dartlen.qr_code_reader.di.scope.FragmentScope
+import by.project.dartlen.qr_code_reader.ui.fragment.CameraFragment
 import by.project.dartlen.qr_code_reader.ui.fragment.MainFragment
 import dagger.Binds
 import dagger.Module
@@ -17,5 +18,5 @@ abstract class MainActivityModule{
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun fragment(): MainFragment
+    abstract fun fragment(): CameraFragment
 }

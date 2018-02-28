@@ -23,7 +23,14 @@ import com.google.zxing.common.HybridBinarizer
 import android.graphics.Bitmap
 import android.util.Log
 import com.google.zxing.*
+import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
+import android.content.ContentValues.TAG
+import android.view.SurfaceView
+import org.opencv.android.LoaderCallbackInterface
+import org.opencv.android.BaseLoaderCallback
+
+
 
 
 class CameraFragment : BaseFragment(), ICameraView, CameraBridgeViewBase.CvCameraViewListener2{
@@ -70,8 +77,8 @@ class CameraFragment : BaseFragment(), ICameraView, CameraBridgeViewBase.CvCamer
 
     override fun onResume() {
         super.onResume()
-        System.loadLibrary("native_code")
-
+        //System.loadLibrary("opencv_java3")
+        OpenCVLoader.initDebug()
         surface_view.enableView()
     }
 
@@ -84,9 +91,11 @@ class CameraFragment : BaseFragment(), ICameraView, CameraBridgeViewBase.CvCamer
                 .also{
                     unbinder = ButterKnife.bind(this@CameraFragment, it)
                 }
+        surface_view.visibility = SurfaceView.VISIBLE
         surface_view.setCvCameraViewListener(this)
-        System.loadLibrary("native_code")
-        surface_view.enableView()
+
+        //System.loadLibrary("opencv_java3")
+        //surface_view.enableView()
 
         return view
     }
@@ -129,7 +138,7 @@ class CameraFragment : BaseFragment(), ICameraView, CameraBridgeViewBase.CvCamer
         endWithContours = false
         endWithSquares = false
 
-	       	callNative(
+	       	/*callNative(
         			doRgba,
         			doGray,
         			doThresh,
@@ -153,10 +162,10 @@ class CameraFragment : BaseFragment(), ICameraView, CameraBridgeViewBase.CvCamer
            		    mGray.getNativeObjAddr(),
 
            		    qr_code2.getNativeObjAddr()
-        			)
-        zxing()
+        			)*/
+        //zxing()
 
-        return mRgba
+        return inputFrame.rgba()
     }
 
     external fun callNative(
@@ -186,6 +195,9 @@ class CameraFragment : BaseFragment(), ICameraView, CameraBridgeViewBase.CvCamer
 
             matAddrQr_gray2: Long
     )
+
+    external fun getMessageFromNative(): Int
+
 
     @Throws(ChecksumException::class, FormatException::class)
     fun zxing() {
