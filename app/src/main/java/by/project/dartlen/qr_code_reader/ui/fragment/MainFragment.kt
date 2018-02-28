@@ -24,7 +24,6 @@ import javax.inject.Inject
 class MainFragment : BaseFragment(), IMainView {
 
     companion object {
-
         fun newInstance() = MainFragment()
     }
 
@@ -34,6 +33,7 @@ class MainFragment : BaseFragment(), IMainView {
 
     @ProvidePresenter
     fun providePresenter() = presenter
+
     private lateinit var unbinder: Unbinder
 
     @BindView(R.id.imageView)

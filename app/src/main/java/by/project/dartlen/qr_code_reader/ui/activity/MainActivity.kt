@@ -3,6 +3,7 @@ package by.project.dartlen.qr_code_reader.ui.activity
 import android.content.Context
 import android.content.Intent
 import by.project.dartlen.qr_code_reader.ui.base.SingleFragmentActivity
+import by.project.dartlen.qr_code_reader.ui.fragment.CameraFragment
 import by.project.dartlen.qr_code_reader.ui.fragment.MainFragment
 
 class MainActivity : SingleFragmentActivity() {

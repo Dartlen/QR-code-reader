@@ -1,6 +1,5 @@
 package by.project.dartlen.qr_code_reader.presentation.presenter.main
 
-import android.graphics.BitmapFactory
 import android.os.Environment
 import by.project.dartlen.qr_code_reader.di.scope.FragmentScope
 import by.project.dartlen.qr_code_reader.presentation.view.IMainView
@@ -8,7 +7,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import net.glxn.qrgen.android.QRCode
 import java.io.File
-import java.nio.file.FileSystem
 import javax.inject.Inject
 import android.graphics.Bitmap
 import java.io.FileOutputStream
