@@ -67,4 +67,6 @@ dependencies {
     implementation project(':barcode-reader')
 
     implementation 'ru.terrakok.cicerone:cicerone:2.1.0'
+
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
 }
