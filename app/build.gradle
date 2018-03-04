@@ -4,8 +4,6 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-
-
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -28,11 +26,7 @@ android {
         incremental = false
     }
     sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jniLibs/'] } }
-    externalNativeBuild {
-        cmake {
-            path 'src/main/java/by/project/dartlen/qr_code_reader/CMakeLists.txt'
-        }
-    }
+
 }
 kapt {
     generateStubs = true
@@ -64,5 +58,10 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     kapt "com.jakewharton:butterknife-compiler:8.8.1"
     implementation 'com.android.support:design:27.0.2'
-    implementation project(':openCVLibrary340')
+
+    // google mobile vision
+    implementation 'com.google.android.gms:play-services-vision:11.8.0'
+
+    // barcode reader
+    implementation project(':barcode-reader')
 }
