@@ -4,6 +4,8 @@ import android.app.Activity
 import by.project.dartlen.qr_code_reader.ui.activity.MainActivity
 import by.project.dartlen.qr_code_reader.di.scope.ActivityScope
 import by.project.dartlen.qr_code_reader.di.scope.FragmentScope
+import by.project.dartlen.qr_code_reader.presentation.routing.MainRouting
+import by.project.dartlen.qr_code_reader.presentation.routing.base.IRoutingBinder
 import by.project.dartlen.qr_code_reader.ui.fragment.CameraFragment
 import by.project.dartlen.qr_code_reader.ui.fragment.MainFragment
 import dagger.Binds
@@ -16,7 +18,12 @@ abstract class MainActivityModule{
     @ActivityScope
     abstract fun activity(activity: MainActivity): Activity
 
+    @Binds
+    @ActivityScope
+    abstract fun routing(routing: MainRouting): IRoutingBinder
+
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun fragment(): CameraFragment
+    abstract fun fragment(): MainFragment
+
 }

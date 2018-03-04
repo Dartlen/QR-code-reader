@@ -12,5 +12,5 @@ class MainActivity : SingleFragmentActivity() {
         fun newIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
 
-    override fun createFragment() = CameraFragment.newInstance()
+    override fun createFragment() = MainFragment.newInstance()
 }

@@ -61,6 +61,7 @@ class MainFragment : BaseFragment(), IMainView {
 
     @OnClick(R.id.button)
     protected fun onButtonToQr(){
+        presenter.onCamera()
         presenter.onToQr(input.text.toString())
     }
 

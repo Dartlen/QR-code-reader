@@ -9,6 +9,8 @@ import net.glxn.qrgen.android.QRCode
 import java.io.File
 import javax.inject.Inject
 import android.graphics.Bitmap
+import by.project.dartlen.qr_code_reader.ui.viewholder.Screens
+import ru.terrakok.cicerone.Router
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -17,7 +19,7 @@ import java.util.*
 @FragmentScope
 @InjectViewState
 class MainPresenter @Inject constructor(
-
+    private val router: Router
 ): MvpPresenter<IMainView>(){
 
     private lateinit var bitmap: Bitmap
@@ -63,8 +65,10 @@ class MainPresenter @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
+    fun onCamera(){
+        router.navigateTo(Screens.CAMERA)
+    }
 
 }
