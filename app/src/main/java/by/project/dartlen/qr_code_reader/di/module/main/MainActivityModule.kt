@@ -24,6 +24,10 @@ abstract class MainActivityModule{
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun fragment(): MainFragment
+    abstract fun mainFragment(): MainFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun cameraFragment(): CameraFragment
 
 }

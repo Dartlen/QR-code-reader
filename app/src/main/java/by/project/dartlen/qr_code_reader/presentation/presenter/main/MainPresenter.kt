@@ -68,7 +68,7 @@ class MainPresenter @Inject constructor(
     }
 
     fun onCamera(){
-        router.navigateTo(Screens.CAMERA)
+        //router.navigateTo(Screens.CAMERA)
     }
 
 }
