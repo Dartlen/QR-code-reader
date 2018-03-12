@@ -1,25 +1,34 @@
 package by.project.dartlen.qr_code_reader.ui.fragment
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import by.project.dartlen.qr_code_reader.R
 import by.project.dartlen.qr_code_reader.presentation.presenter.camera.CameraPresenter
 import by.project.dartlen.qr_code_reader.presentation.view.ICameraView
-import by.project.dartlen.qr_code_reader.ui.base.BaseFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.android.gms.vision.barcode.Barcode
 import info.androidhive.barcode.BarcodeReader
 import javax.inject.Inject
 import android.widget.Toast
+import butterknife.BindView
+import android.content.Intent
+import java.net.URL
 
-class CameraFragment : BaseFragment(), ICameraView, BarcodeReader.BarcodeReaderListener{
+
+class CameraFragment : Fragment(), ICameraView, BarcodeReader.BarcodeReaderListener{
 
     @Inject
     @InjectPresenter
@@ -27,6 +36,9 @@ class CameraFragment : BaseFragment(), ICameraView, BarcodeReader.BarcodeReaderL
 
     @ProvidePresenter
     fun providePresenter() = presenter
+
+    @BindView(R.id.url)
+    lateinit var url: TextView
 
     private lateinit var unbinder: Unbinder
 
@@ -50,14 +62,32 @@ class CameraFragment : BaseFragment(), ICameraView, BarcodeReader.BarcodeReaderL
                 .also{
                     unbinder = ButterKnife.bind(this@CameraFragment, it)
                 }
+        ButterKnife.bind(this, view)
         barcodeReader = childFragmentManager.findFragmentById(R.id.barcode_fragment) as BarcodeReader
         barcodeReader.setListener(this)
 
+        url.setOnClickListener {
+            try {
+                URL(url.toString()).openConnection()?.connect()
+                val i = Intent(Intent.ACTION_VIEW, Uri.parse(url.text.toString()))
+                startActivity(i)
+            }catch (e:Exception){
+
+                val clipboard =  activity!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.primaryClip =  ClipData.newPlainText("text", url.text.toString())
+
+                Toast.makeText(context, clipboard.getPrimaryClip().getItemAt(0).getText(), Toast.LENGTH_LONG).show()
+            }
+
+        }
 
         return view
     }
 
-    override fun onScanned(barcode: Barcode?) {
+    override fun onScanned(barcode: Barcode) {
+        url.text= barcode.rawValue
+        url.visibility=View.VISIBLE
+        Log.d("dsad", barcode.toString())
 
     }
 
@@ -66,9 +96,9 @@ class CameraFragment : BaseFragment(), ICameraView, BarcodeReader.BarcodeReaderL
         for (barcode in barcodes) {
             codes += (barcode.displayValue + ", ")
         }
+        url.visibility = View.VISIBLE
+        url.setText(codes)
 
-        val finalCodes = codes
-        activity!!.runOnUiThread { Toast.makeText(activity, "Barcodes: " + finalCodes, Toast.LENGTH_SHORT).show() }
     }
 
     override fun onBitmapScanned(sparseArray: SparseArray<Barcode>?) {

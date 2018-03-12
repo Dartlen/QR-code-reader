@@ -67,4 +67,5 @@ dependencies {
     implementation project(':barcode-reader')
 
     implementation 'ru.terrakok.cicerone:cicerone:2.1.0'
+
 }

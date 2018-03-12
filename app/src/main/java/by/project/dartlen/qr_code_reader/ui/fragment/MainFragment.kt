@@ -1,5 +1,6 @@
 package by.project.dartlen.qr_code_reader.ui.fragment
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import butterknife.Unbinder
 import by.project.dartlen.qr_code_reader.R
 import by.project.dartlen.qr_code_reader.presentation.presenter.main.MainPresenter
 import by.project.dartlen.qr_code_reader.presentation.view.IMainView
+import by.project.dartlen.qr_code_reader.ui.activity.CameraActivity
 import by.project.dartlen.qr_code_reader.ui.base.BaseFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -77,5 +79,11 @@ class MainFragment : BaseFragment(), IMainView {
 
     override fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    @OnClick(R.id.button3)
+    fun showCamera(){
+        var intent = Intent(activity, CameraActivity::class.java)
+        startActivity(intent)
     }
 }
