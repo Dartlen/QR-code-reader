@@ -25,6 +25,7 @@ import javax.inject.Inject
 import android.widget.Toast
 import butterknife.BindView
 import android.content.Intent
+import android.widget.ImageView
 import java.net.URL
 
 
@@ -39,6 +40,9 @@ class CameraFragment : Fragment(), ICameraView, BarcodeReader.BarcodeReaderListe
 
     @BindView(R.id.url)
     lateinit var url: TextView
+
+    @BindView(R.id.imageView2)
+    lateinit var help: ImageView
 
     private lateinit var unbinder: Unbinder
 
@@ -80,6 +84,8 @@ class CameraFragment : Fragment(), ICameraView, BarcodeReader.BarcodeReaderListe
             }
 
         }
+
+        help.setOnClickListener { v -> Toast.makeText(activity, "Результат сканирования можно скопировать в буфер обмена нажатием на результат внизу экрана", Toast.LENGTH_LONG).show() }
 
         return view
     }

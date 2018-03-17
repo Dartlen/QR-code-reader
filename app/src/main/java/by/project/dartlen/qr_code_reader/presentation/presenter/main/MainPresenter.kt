@@ -9,11 +9,19 @@ import net.glxn.qrgen.android.QRCode
 import java.io.File
 import javax.inject.Inject
 import android.graphics.Bitmap
-import by.project.dartlen.qr_code_reader.ui.viewholder.Screens
+import android.graphics.Color.BLACK
+import android.graphics.Color.WHITE
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.WriterException
+import com.google.zxing.common.BitMatrix
 import ru.terrakok.cicerone.Router
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+
+
 
 
 @FragmentScope
@@ -27,8 +35,13 @@ class MainPresenter @Inject constructor(
     private lateinit var root: String
 
     fun onToQr(text: String){
-        bitmap = QRCode.from(text).withSize(1000, 1000).bitmap()
-        viewState.showQr(bitmap)
+        //bitmap = QRCode.from(text).withSize(1000, 1000).bitmap()
+        if(!text.equals("")) {
+            bitmap = encodeAsBitmap(text, BarcodeFormat.QR_CODE, 1000, 1000)
+            viewState.showQr(bitmap)
+        }
+        else
+            viewState.showToast("Необходимо ввести кодируемый текст")
     }
 
     fun onSave(){
@@ -69,6 +82,48 @@ class MainPresenter @Inject constructor(
 
     fun onCamera(){
         //router.navigateTo(Screens.CAMERA)
+    }
+
+    @Throws(WriterException::class)
+    private fun encodeAsBitmap(contents: String, format: BarcodeFormat, img_width: Int, img_height: Int): Bitmap {
+        var hints: MutableMap<EncodeHintType, Any>? = null
+        val encoding = guessAppropriateEncoding(contents)
+        if (encoding != null) {
+            hints = EnumMap<EncodeHintType, Any>(EncodeHintType::class.java)
+            hints!![EncodeHintType.CHARACTER_SET] = encoding
+        }
+        val writer = MultiFormatWriter()
+        val result: BitMatrix
+        ///try {
+            result = writer.encode(contents, format, img_width, img_height, hints)
+       /* } catch (iae: IllegalArgumentException) {
+            // Unsupported format
+            return
+        }*/
+
+        val width = result.getWidth()
+        val height = result.getHeight()
+        val pixels = IntArray(width * height)
+        for (y in 0 until height) {
+            val offset = y * width
+            for (x in 0 until width) {
+                pixels[offset + x] = if (result.get(x, y)) BLACK else WHITE
+            }
+        }
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+        return bitmap
+    }
+
+    fun guessAppropriateEncoding(contents: CharSequence): String? {
+        // Very crude at the moment
+        for (i in 0 until contents.length) {
+            if (contents[i].toInt() > 0xFF) {
+                return "UTF-8"
+            }
+        }
+        return null
     }
 
 }
